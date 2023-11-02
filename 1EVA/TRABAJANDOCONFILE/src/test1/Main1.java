@@ -48,7 +48,7 @@ public class Main1 {
 
 		Scanner Sc = new Scanner(System.in);
 		System.out.println("1-Directorio Actual\n2-Directorio Especifico");
-		opcion = Sc.nextInt();
+		try{opcion = Sc.nextInt();}catch(Exception e){};
 		Sc.nextLine();
 
 		switch (opcion) {
