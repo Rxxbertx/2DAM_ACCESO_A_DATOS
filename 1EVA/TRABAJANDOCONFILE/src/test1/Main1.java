@@ -80,16 +80,7 @@ public class Main1 {
 			System.out.println("fichero: "+fichero.isFile());
 			System.out.println("directorio: "+fichero.isDirectory());
 			System.out.println("nombre padre: "+fichero.getParent());
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
 		}
 		
 		
