@@ -7,8 +7,7 @@ public class Persona  implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8724579209371113107L;
-	
+
 	String nombre;
 	int edad;
 	

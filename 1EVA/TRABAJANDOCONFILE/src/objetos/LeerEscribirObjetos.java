@@ -53,19 +53,23 @@ public class LeerEscribirObjetos {
 
 			}
 
-		} catch (EOFException e) {
-			ois.close();
+		} catch (IOException e) {
+			
 		}
+		ois.close();
 
 	}
 
 	private static void escribir(File fichero) throws FileNotFoundException, IOException {
 
-		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichero));
+		ObjectOutputStream oos = new MyObjectOutputStream(new FileOutputStream(fichero,true));
 
+		
+		
 		for (int i = 1; i <= 10; i++) {
 
 			oos.writeObject(new Persona("NOMBRE" + i, (int) (i * (Math.random() * 10)+2)));
+			
 			oos.flush();
 
 		}
