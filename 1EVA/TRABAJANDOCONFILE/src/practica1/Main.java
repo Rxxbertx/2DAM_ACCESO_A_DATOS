@@ -4,6 +4,7 @@ import static practica1.Constantes.*;
 import static practica1.Operaciones.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Main {
@@ -37,7 +38,12 @@ public class Main {
 				break;
 			case BAJA:
 
-				baja(FICHERO);
+				try {
+					baja(FICHERO);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				break;
 			case MODIFICAR:
@@ -47,7 +53,12 @@ public class Main {
 				break;
 			case CONSULTA:
 
-				consultar(FICHERO);
+				try {
+					consultar(FICHERO);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				break;
 

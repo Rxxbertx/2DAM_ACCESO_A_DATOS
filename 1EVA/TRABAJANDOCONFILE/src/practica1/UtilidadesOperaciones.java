@@ -1,6 +1,7 @@
-package RANDOMACCESFILES;
+package practica1;
 
 import java.io.IOException;
+import static practica1.Constantes.*;
 import java.io.RandomAccessFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,8 +10,6 @@ import java.util.regex.Pattern;
 public final class UtilidadesOperaciones {
 	
 	
-	private static final int BYTES_DNI = 0;
-	private static final int BYTES_CHAR = 0;
 
 	static boolean eliminar(RandomAccessFile raf)  {
 		
