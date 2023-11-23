@@ -10,6 +10,12 @@ public final class Constantes {
 	static final int MODIFICAR = 3;
 	static final int CONSULTA = 4;
 	
+	static final int DNI=1;
+	static final int NOMBRE=2;
+	static final int APELLIDOS=3;
+	static final int CICLO=4;
+	static final int CURSO=5;
+	
 	static final int BYTES_CHAR = 2;
 	static final int BYTES_INT = 4;
 	
