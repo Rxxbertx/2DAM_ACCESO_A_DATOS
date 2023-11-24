@@ -56,6 +56,7 @@ public class Main {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					System.out.println("FALLO");
 				} // Llama al método para modificar
 				break;
 			case CONSULTA:

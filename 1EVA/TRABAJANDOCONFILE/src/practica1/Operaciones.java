@@ -16,9 +16,13 @@ public final class Operaciones {
 
 	static void modificar(File FICHERO) throws IOException {
 
-		raf = new RandomAccessFile(FICHERO, "rw");
 		boolean salir = false;
 		String dni = null;
+		String nombre = null;
+		String apellidos = null;
+		String ciclo = null;
+		int curso = -1;
+		String aux = null;
 
 		while (!salir) {
 
@@ -33,8 +37,8 @@ public final class Operaciones {
 			} else {
 
 				if (UtilidadesOperaciones.preguntaModificacion()) {
-
-					// campo a solicitar, en base a que quiere modificar
+					
+					raf = new RandomAccessFile(FICHERO, "rw");
 
 					while (!salir) {
 
@@ -42,33 +46,91 @@ public final class Operaciones {
 
 						case DNI:
 
+							
 							raf.seek(PUNTERO_INCIO_REGISTRO);
-							raf.writeChars(dni);
+
+							dni = UtilidadesOperaciones.leerDNI(raf).trim();
+							aux = UtilidadesOperaciones.modificarDNI(dni);
+
+							if (aux.equals(dni)) {
+
+								// nAn
+
+							} else {
+
+								raf.seek(PUNTERO_INCIO_REGISTRO);
+								System.out.println(raf.getFilePointer());
+								raf.writeChars(aux);
+							}
 
 							break;
 
 						case NOMBRE:
 
 							raf.seek(PUNTERO_INCIO_REGISTRO + INICIO_BYTES_NOMBRE);
-							raf.writeChars(dni);
+
+							nombre = UtilidadesOperaciones.leerNOMBRE(raf).trim();
+							aux = UtilidadesOperaciones.modificarNOMBRE(nombre);
+							if (aux.equals(nombre)) {
+
+								// nAn
+
+							} else {
+
+								raf.seek(PUNTERO_INCIO_REGISTRO + INICIO_BYTES_NOMBRE);
+
+								raf.writeChars(aux);
+							}
 
 							break;
 						case APELLIDOS:
 
 							raf.seek(PUNTERO_INCIO_REGISTRO + INICIO_BYTES_APELLIDOS);
-							raf.writeChars(dni);
+
+							apellidos = UtilidadesOperaciones.leerAPELLIDOS(raf).trim();
+							aux = UtilidadesOperaciones.modificarAPELLIDOS(apellidos);
+							if (aux.equals(apellidos)) {
+								// nAn
+							} else {
+
+								raf.seek(PUNTERO_INCIO_REGISTRO + INICIO_BYTES_APELLIDOS);
+
+								raf.writeChars(aux);
+							}
 
 							break;
 						case CICLO:
 
 							raf.seek(PUNTERO_INCIO_REGISTRO + INICIO_BYTES_CICLO);
-							raf.writeChars(dni);
+
+							ciclo = UtilidadesOperaciones.leerCICLO(raf).trim();
+							aux = UtilidadesOperaciones.modificarCICLO(ciclo);
+							if (aux.equals(ciclo)) {
+								
+								
+							} else {
+
+								raf.seek(PUNTERO_INCIO_REGISTRO + INICIO_BYTES_CICLO);
+
+								raf.writeChars(aux);
+							}
 
 							break;
 						case CURSO:
 
 							raf.seek(PUNTERO_INCIO_REGISTRO + INICIO_BYTES_CURSO);
-							raf.writeChars(dni);
+
+							curso = UtilidadesOperaciones.leerCURSO(raf);
+							int temp = UtilidadesOperaciones.modificarCURSO(curso);
+
+							if (temp == curso) {
+								// nAn
+							} else {
+
+								raf.seek(PUNTERO_INCIO_REGISTRO + INICIO_BYTES_CURSO);
+
+								raf.writeInt(temp);
+							}
 
 							break;
 						default:
@@ -79,16 +141,15 @@ public final class Operaciones {
 
 					}
 
-					System.out.println("<<<MODIFICACION FINALIZADA>>>");
-
 				} else {
 
-					System.out.println("MODIFICACION CANCELADA");
 					salir = true;
 
 				}
 			}
 		}
+		raf.close();
+		System.out.println("<<<MODIFICACION FINALIZADA>>>");
 
 	}
 
@@ -224,9 +285,11 @@ public final class Operaciones {
 
 					raf.seek(raf.getFilePointer() - BYTES_DNI);
 
-					System.out.println(UtilidadesOperaciones.leerAlumno(raf));
+					System.out.println("\n" + UtilidadesOperaciones.leerAlumno(raf) + "\n");
 					salir = true;
-					return raf.getFilePointer() - BYTES_REGISTRO;
+					long temp = raf.getFilePointer() - BYTES_REGISTRO;
+					raf.close();
+					return temp;
 
 				} else {
 					salir = true;
@@ -250,66 +313,15 @@ public final class Operaciones {
 
 			while (true) {
 
-				StringBuilder temp = new StringBuilder();
+				String alumno = UtilidadesOperaciones.leerAlumno(dis);
 
-				for (int i = 0; i < BYTES_DNI / BYTES_CHAR; i++) {
-
-					temp.append(dis.readChar());
-
+				if (alumno != null) {
+					usuarios.append("\n");
+					usuarios.append(alumno);
+					usuarios.append("\n");
+				} else {
+					dis.skipBytes(BYTES_REGISTRO - BYTES_DNI);
 				}
-
-				if (temp.toString().equals("000000000")) {
-
-					dis.readNBytes(BYTES_REGISTRO - BYTES_DNI);
-					continue;
-
-				}
-
-				String dni = new String("DNI: " + temp).trim();
-
-				temp.delete(0, temp.length());
-
-				for (int i = 0; i < BYTES_NOMBRE / BYTES_CHAR; i++) {
-
-					temp.append(dis.readChar());
-
-				}
-
-				String nombre = new String("Nombre: " + temp).trim();
-				temp.delete(0, temp.length());
-
-				for (int i = 0; i < BYTES_APELLIDO / BYTES_CHAR; i++) {
-
-					temp.append(dis.readChar());
-
-				}
-
-				String apellidos = new String("Apellidos: " + temp).trim();
-				temp.delete(0, temp.length());
-
-				for (int i = 0; i < BYTES_CICLO / BYTES_CHAR; i++) {
-
-					temp.append(dis.readChar());
-
-				}
-
-				String ciclo = new String("Ciclo: " + temp).trim();
-				temp.delete(0, temp.length());
-
-				String curso = new String("Curso: " + dis.readInt()).trim();
-
-				temp.append(dni);
-				temp.append("\n");
-				temp.append(nombre);
-				temp.append("\n");
-				temp.append(apellidos);
-				temp.append("\n");
-				temp.append(ciclo);
-				temp.append("\n");
-				temp.append(curso);
-
-				usuarios.append(temp);
-				usuarios.append("\n");
 
 			}
 		} catch (IOException e) {
@@ -464,7 +476,7 @@ public final class Operaciones {
 					raf.writeChars(sb.toString());
 
 					sb = new StringBuffer(apellido);
-					sb.setLength(BYTES_APELLIDO / BYTES_CHAR);
+					sb.setLength(BYTES_APELLIDOS / BYTES_CHAR);
 					raf.writeChars(sb.toString());
 
 					sb = new StringBuffer(ciclo);
@@ -486,22 +498,22 @@ public final class Operaciones {
 
 							case DNI:
 
-								dni = UtilidadesOperaciones.modificarDNI(dni);
+								dni = UtilidadesOperaciones.modificarDNI(dni).trim();
 
 								break;
 							case NOMBRE:
 
-								nombre = UtilidadesOperaciones.modificarNOMBRE(nombre);
+								nombre = UtilidadesOperaciones.modificarNOMBRE(nombre).trim();
 
 								break;
 							case APELLIDOS:
 
-								apellido = UtilidadesOperaciones.modificarAPELLIDOS(apellido);
+								apellido = UtilidadesOperaciones.modificarAPELLIDOS(apellido).trim();
 
 								break;
 							case CICLO:
 
-								ciclo = UtilidadesOperaciones.modificarCICLO(ciclo);
+								ciclo = UtilidadesOperaciones.modificarCICLO(ciclo).trim();
 
 								break;
 							case CURSO:

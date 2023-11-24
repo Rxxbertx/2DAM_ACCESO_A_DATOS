@@ -1,5 +1,6 @@
 package practica1;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import static practica1.Constantes.*;
 import java.io.RandomAccessFile;
@@ -90,36 +91,26 @@ public final class UtilidadesOperaciones {
 
 			StringBuilder temp = new StringBuilder();
 
-			for (int i = 0; i < BYTES_DNI / BYTES_CHAR; i++) {
+			String dni = new String("DNI: " + leerDNI(raf)).trim();
 
-				temp.append(raf.readChar());
-
+			if (dni.equals("DNI: 000000000")) {
+				return null;
 			}
 
-			String dni = new String("DNI: " + temp).trim();
-			temp.delete(0, temp.length());
+			String nombre = new String("Nombre: " + leerNOMBRE(raf)).trim();
+			String apellidos = new String("Apellidos: " + leerAPELLIDOS(raf)).trim();
+			String ciclo = new String("Ciclo: " + leerCICLO(raf)).trim();
+			String curso = new String("Curso: " + leerCURSO(raf)).trim();
 
-			for (int i = 0; i < BYTES_NOMBRE / BYTES_CHAR; i++) {
-
-				temp.append(raf.readChar());
-
-			}
-			temp.append("\nAPELLIDOS: ");
-			for (int i = 0; i < BYTES_APELLIDO / BYTES_CHAR; i++) {
-
-				temp.append(raf.readChar());
-
-			}
-			temp.append("\nCICLO: ");
-			for (int i = 0; i < BYTES_CICLO / BYTES_CHAR; i++) {
-
-				temp.append(raf.readChar());
-
-			}
-			temp.append("\nCURSO: ");
-			temp.append(raf.readInt());
-
+			temp.append(dni);
 			temp.append("\n");
+			temp.append(nombre);
+			temp.append("\n");
+			temp.append(apellidos);
+			temp.append("\n");
+			temp.append(ciclo);
+			temp.append("\n");
+			temp.append(curso);
 
 			return temp.toString();
 
@@ -127,6 +118,34 @@ public final class UtilidadesOperaciones {
 			return "";
 		}
 
+	}
+
+	public static String leerAlumno(DataInputStream dis) throws IOException {
+
+		StringBuilder temp = new StringBuilder();
+
+		String dni = new String("DNI: " + leerDNI(dis)).trim();
+
+		if (dni.equals("DNI: 000000000")) {
+			return null;
+		}
+
+		String nombre = new String("Nombre: " + leerNOMBRE(dis)).trim();
+		String apellidos = new String("Apellidos: " + leerAPELLIDOS(dis)).trim();
+		String ciclo = new String("Ciclo: " + leerCICLO(dis)).trim();
+		String curso = new String("Curso: " + leerCURSO(dis)).trim();
+
+		temp.append(dni);
+		temp.append("\n");
+		temp.append(nombre);
+		temp.append("\n");
+		temp.append(apellidos);
+		temp.append("\n");
+		temp.append(ciclo);
+		temp.append("\n");
+		temp.append(curso);
+
+		return temp.toString();
 	}
 
 	public static boolean preguntaModificacion() {
@@ -196,16 +215,25 @@ public final class UtilidadesOperaciones {
 		System.out.println("INTRODUCE EL DNI NUEVO\nACTUAL: " + dni);
 		String temp = sc.nextLine();
 		if (UtilidadesOperaciones.validarDNI(temp)) {
-			System.out.println(
-					"---ESTAS SEGURO DE REEMPLAZAR EL DNI ACTUAL POR EL NUEVO?---\n(1) SI\n(CUALQUIER TECLA) NO\n"
-							+ "\nNUEVO: " + temp + " ACTUAL: " + dni);
-			if (sc.nextLine().equals("1")) {
 
-				System.out.println("MODIFICACION DNI ACEPTADA");
-				return temp;
-
+			if (temp.equals(dni)) {
+				System.err.println("<<<MODIFICACION NO REALIZADA, MISMO DNI>>>");
 			} else {
-				System.err.println("MODIFICACION DNI CANCELADA");
+				System.out.println(
+						"---ESTAS SEGURO DE REEMPLAZAR EL DNI ACTUAL POR EL NUEVO?---\n(1) SI\n(CUALQUIER TECLA) NO\n"
+								+ "\nNUEVO: " + temp + " ACTUAL: " + dni);
+				if (sc.nextLine().equals("1")) {
+
+					System.out.println("MODIFICACION DNI ACEPTADA");
+
+					StringBuffer sb = new StringBuffer(temp);
+					sb.setLength(BYTES_DNI/BYTES_CHAR);
+					
+					return sb.toString();
+					
+				} else {
+					System.err.println("MODIFICACION DNI CANCELADA");
+				}
 			}
 		} else {
 			System.err.println("DNI INCORRECTO, MODIFICACION CANCELADA");
@@ -218,16 +246,27 @@ public final class UtilidadesOperaciones {
 		System.out.println("INTRODUCE EL NOMBRE NUEVO\nACTUAL: " + nombre);
 		String temp = sc.nextLine();
 		if (UtilidadesOperaciones.validarNOMBRE(temp)) {
-			System.out.println(
-					"---ESTAS SEGURO DE REEMPLAZAR EL NOMBRE ACTUAL POR EL NUEVO?---\n(1) SI\n(CUALQUIER TECLA) NO\n"
-							+ "\nNUEVO: " + temp + " ACTUAL: " + nombre);
-			if (sc.nextLine().equals("1")) {
 
-				System.out.println("MODIFICACION NOMBRE ACEPTADA");
-				return temp;
+			if (temp.equals(nombre)) {
 
+				System.err.println("<<<MODIFICACION NO REALIZADA, MISMO NOMBRE>>>");
 			} else {
-				System.err.println("MODIFICACION NOMBRE CANCELADA");
+
+				System.out.println(
+						"---ESTAS SEGURO DE REEMPLAZAR EL NOMBRE ACTUAL POR EL NUEVO?---\n(1) SI\n(CUALQUIER TECLA) NO\n"
+								+ "\nNUEVO: " + temp + " ACTUAL: " + nombre);
+				if (sc.nextLine().equals("1")) {
+
+					System.out.println("MODIFICACION NOMBRE ACEPTADA");
+					
+					StringBuffer sb = new StringBuffer(temp);
+					sb.setLength(BYTES_NOMBRE/BYTES_CHAR);
+					
+					return sb.toString();
+
+				} else {
+					System.err.println("MODIFICACION NOMBRE CANCELADA");
+				}
 			}
 		} else {
 			System.err.println("NOMBRE INCORRECTO, MODIFICACION CANCELADA");
@@ -239,16 +278,25 @@ public final class UtilidadesOperaciones {
 		System.out.println("INTRODUCE LOS APELLIDOS NUEVOS\nACTUAL: " + apellidos);
 		String temp = sc.nextLine();
 		if (UtilidadesOperaciones.validarAPELLIDOS(temp)) {
-			System.out.println(
-					"---ESTAS SEGURO DE REEMPLAZAR LOS APELLIDOS ACTUALES POR LOS NUEVOS?---\n(1) SI\n(CUALQUIER TECLA) NO\n"
-							+ "\nNUEVO: " + temp + " ACTUAL: " + apellidos);
-			if (sc.nextLine().equals("1")) {
 
-				System.out.println("MODIFICACION APELLIDOS ACEPTADA");
-				return temp;
-
+			if (temp.equals(apellidos)) {
+				System.err.println("<<<MODIFICACION NO REALIZADA, MISMO APELLIDOS>>>");
 			} else {
-				System.err.println("MODIFICACION APELLIDOS CANCELADA");
+
+				System.out.println(
+						"---ESTAS SEGURO DE REEMPLAZAR LOS APELLIDOS ACTUALES POR LOS NUEVOS?---\n(1) SI\n(CUALQUIER TECLA) NO\n"
+								+ "\nNUEVO: " + temp + " ACTUAL: " + apellidos);
+				if (sc.nextLine().equals("1")) {
+
+					System.out.println("MODIFICACION APELLIDOS ACEPTADA");
+					StringBuffer sb = new StringBuffer(temp);
+					sb.setLength(BYTES_APELLIDOS/BYTES_CHAR);
+					
+					return sb.toString();
+
+				} else {
+					System.err.println("MODIFICACION APELLIDOS CANCELADA");
+				}
 			}
 		} else {
 			System.err.println("APELLIDOS INCORRECTOS, MODIFICACION CANCELADA");
@@ -257,49 +305,166 @@ public final class UtilidadesOperaciones {
 	}
 
 	public static String modificarCICLO(String ciclo) {
-		
+
 		System.out.println("INTRODUCE EL CICLO NUEVO\nACTUAL: " + ciclo);
 		String temp = sc.nextLine();
 		if (UtilidadesOperaciones.validarCICLO(temp)) {
-			System.out.println(
-					"---ESTAS SEGURO DE REEMPLAZAR EL CICLO ACTUAL POR EL NUEVO?---\n(1) SI\n(CUALQUIER TECLA) NO\n"
-							+ "\nNUEVO: " + temp + " ACTUAL: " + ciclo);
-			if (sc.nextLine().equals("1")) {
 
-				System.out.println("MODIFICACION CICLO ACEPTADA");
-				return temp;
-
+			if (temp.equals(ciclo)) {
+				System.err.println("<<<MODIFICACION NO REALIZADA, MISMO CICLO>>>");
 			} else {
-				System.err.println("MODIFICACION CICLO CANCELADA");
+				System.out.println(
+						"---ESTAS SEGURO DE REEMPLAZAR EL CICLO ACTUAL POR EL NUEVO?---\n(1) SI\n(CUALQUIER TECLA) NO\n"
+								+ "\nNUEVO: " + temp + " ACTUAL: " + ciclo);
+				if (sc.nextLine().equals("1")) {
+
+					System.out.println("MODIFICACION CICLO ACEPTADA");
+					StringBuffer sb = new StringBuffer(temp);
+					sb.setLength(BYTES_CICLO/BYTES_CHAR);
+					
+					return sb.toString();
+
+				} else {
+					System.err.println("MODIFICACION CICLO CANCELADA");
+				}
 			}
 		} else {
 			System.err.println("CICLO INCORRECTO, MODIFICACION CANCELADA");
 		}
 		return ciclo;
-		
+
 	}
 
 	public static int modificarCURSO(int curso) {
 		System.out.println("INTRODUCE EL CURSO NUEVO\nACTUAL: " + curso);
 		String temp = sc.nextLine();
-		
-		if (UtilidadesOperaciones.validarCURSO(temp)) {
-			System.out.println(
-					"---ESTAS SEGURO DE REEMPLAZAR EL CICLO ACTUAL POR EL NUEVO?---\n(1) SI\n(CUALQUIER TECLA) NO\n"
-							+ "\nNUEVO: " + temp + " ACTUAL: " + curso);
-			if (sc.nextLine().equals("1")) {
 
-				System.out.println("MODIFICACION CURSO ACEPTADA");
-				return Integer.parseInt(temp);
+		if (UtilidadesOperaciones.validarCURSO(temp)) {
+
+			if (Integer.parseInt(temp) == curso) {
+				System.err.println("<<<MODIFICACION NO REALIZADA, MISMO CURSO>>>");
 
 			} else {
-				System.err.println("MODIFICACION CURSO CANCELADA");
+
+				System.out.println(
+						"---ESTAS SEGURO DE REEMPLAZAR EL CICLO ACTUAL POR EL NUEVO?---\n(1) SI\n(CUALQUIER TECLA) NO\n"
+								+ "\nNUEVO: " + temp + " ACTUAL: " + curso);
+				if (sc.nextLine().equals("1")) {
+
+					System.out.println("MODIFICACION CURSO ACEPTADA");
+					return Integer.parseInt(temp);
+
+				} else {
+					System.err.println("MODIFICACION CURSO CANCELADA");
+				}
 			}
 		} else {
 			System.err.println("CURSO INCORRECTO, MODIFICACION CANCELADA");
 		}
 		return curso;
 
+	}
+
+	public static String leerDNI(RandomAccessFile raf) throws IOException {
+
+		StringBuilder temp = new StringBuilder();
+
+		for (int i = 0; i < BYTES_DNI / BYTES_CHAR; i++) {
+
+			temp.append(raf.readChar());
+
+		}
+		return temp.toString();
+
+	}
+
+	public static String leerNOMBRE(RandomAccessFile raf) throws IOException {
+		StringBuilder temp = new StringBuilder();
+
+		for (int i = 0; i < BYTES_NOMBRE / BYTES_CHAR; i++) {
+
+			temp.append(raf.readChar());
+
+		}
+		return temp.toString();
+	}
+
+	public static String leerAPELLIDOS(RandomAccessFile raf) throws IOException {
+		StringBuilder temp = new StringBuilder();
+
+		for (int i = 0; i < BYTES_APELLIDOS / BYTES_CHAR; i++) {
+
+			temp.append(raf.readChar());
+
+		}
+		return temp.toString();
+	}
+
+	public static String leerCICLO(RandomAccessFile raf) throws IOException {
+		StringBuilder temp = new StringBuilder();
+
+		for (int i = 0; i < BYTES_CICLO / BYTES_CHAR; i++) {
+
+			temp.append(raf.readChar());
+
+		}
+		return temp.toString();
+	}
+
+	public static int leerCURSO(RandomAccessFile raf) throws IOException {
+		// TODO Auto-generated method stub
+		return raf.readInt();
+	}
+
+	public static String leerDNI(DataInputStream das) throws IOException {
+
+		StringBuilder temp = new StringBuilder();
+
+		for (int i = 0; i < BYTES_DNI / BYTES_CHAR; i++) {
+
+			temp.append(das.readChar());
+
+		}
+		return temp.toString();
+
+	}
+
+	public static String leerNOMBRE(DataInputStream das) throws IOException {
+		StringBuilder temp = new StringBuilder();
+
+		for (int i = 0; i < BYTES_NOMBRE / BYTES_CHAR; i++) {
+
+			temp.append(das.readChar());
+
+		}
+		return temp.toString();
+	}
+
+	public static String leerAPELLIDOS(DataInputStream das) throws IOException {
+		StringBuilder temp = new StringBuilder();
+
+		for (int i = 0; i < BYTES_APELLIDOS / BYTES_CHAR; i++) {
+
+			temp.append(das.readChar());
+
+		}
+		return temp.toString();
+	}
+
+	public static String leerCICLO(DataInputStream das) throws IOException {
+		StringBuilder temp = new StringBuilder();
+
+		for (int i = 0; i < BYTES_CICLO / BYTES_CHAR; i++) {
+
+			temp.append(das.readChar());
+
+		}
+		return temp.toString();
+	}
+
+	public static int leerCURSO(DataInputStream das) throws IOException {
+		// TODO Auto-generated method stub
+		return das.readInt();
 	}
 
 }
