@@ -14,8 +14,81 @@ public final class Operaciones {
 
 	static RandomAccessFile raf;
 
-	static void modificar(File FICHERO) {
-		// TODO Auto-generated method stub
+	static void modificar(File FICHERO) throws IOException {
+
+		raf = new RandomAccessFile(FICHERO, "rw");
+		boolean salir = false;
+		String dni = null;
+
+		while (!salir) {
+
+			final long PUNTERO_INCIO_REGISTRO = consultaEspecifica(FICHERO);
+			if (PUNTERO_INCIO_REGISTRO == PUNTERO_INVALIDO) {
+
+				System.out.println("(CUALQUIER TECLA)INTENTAR DE NUEVO\n(3)SALIR");
+				if (sc.nextLine().equals("3")) {
+					salir = true;
+				}
+
+			} else {
+
+				if (UtilidadesOperaciones.preguntaModificacion()) {
+
+					// campo a solicitar, en base a que quiere modificar
+
+					while (!salir) {
+
+						switch (UtilidadesOperaciones.opcionesModificar()) {
+
+						case DNI:
+
+							raf.seek(PUNTERO_INCIO_REGISTRO);
+							raf.writeChars(dni);
+
+							break;
+
+						case NOMBRE:
+
+							raf.seek(PUNTERO_INCIO_REGISTRO + INICIO_BYTES_NOMBRE);
+							raf.writeChars(dni);
+
+							break;
+						case APELLIDOS:
+
+							raf.seek(PUNTERO_INCIO_REGISTRO + INICIO_BYTES_APELLIDOS);
+							raf.writeChars(dni);
+
+							break;
+						case CICLO:
+
+							raf.seek(PUNTERO_INCIO_REGISTRO + INICIO_BYTES_CICLO);
+							raf.writeChars(dni);
+
+							break;
+						case CURSO:
+
+							raf.seek(PUNTERO_INCIO_REGISTRO + INICIO_BYTES_CURSO);
+							raf.writeChars(dni);
+
+							break;
+						default:
+							salir = true;
+							break;
+
+						}
+
+					}
+
+					System.out.println("<<<MODIFICACION FINALIZADA>>>");
+
+				} else {
+
+					System.out.println("MODIFICACION CANCELADA");
+					salir = true;
+
+				}
+			}
+		}
 
 	}
 
@@ -28,8 +101,11 @@ public final class Operaciones {
 
 		while (!salir) {
 
-			System.out.println("INTRODUCE EL DNI DEL ALUMNO QUE DESEAS ELIMINAR");
+			System.out.println("--INTRODUCE EL DNI DEL ALUMNO QUE DESEAS ELIMINAR--\n(3)PARA SALIR");
 			dni = sc.nextLine();
+
+			if (dni.equals("3"))
+				break;
 
 			if (UtilidadesOperaciones.validarDNI(dni)) {
 
@@ -38,7 +114,8 @@ public final class Operaciones {
 				while (!encontrado) {
 
 					if (raf.getFilePointer() >= raf.length()) {
-						System.err.println("NO SE HA ENCONTRADO ESE DNI EN EL SISTEMA\n>>>");
+						System.err.println("NO SE HA ENCONTRADO ESE DNI EN EL SISTEMA");
+						System.out.println(">>>");
 						break;
 					}
 
@@ -82,7 +159,8 @@ public final class Operaciones {
 
 		while (!salir) {
 
-			System.out.println("-----\nQue deseas hacer? (1)Consultar Todo (2)Consultar Alumno Especifico (3) Salir\n-----");
+			System.out.println("---Que deseas hacer?---\n(1)Consultar Todo\n(2)Consultar Alumno Especifico\n(3)Salir\n"
+					+ "-----------------------");
 
 			switch (sc.nextLine()) {
 			case "1":
@@ -100,7 +178,7 @@ public final class Operaciones {
 				break;
 
 			default:
-				System.out.println("ERROR OPCION DESCONOCIDA SI DESEA SALIR INTRODUCE (3)");
+				System.err.println("<<<ERROR OPCION DESCONOCIDA>>>");
 				break;
 			}
 
@@ -108,7 +186,7 @@ public final class Operaciones {
 
 	}
 
-	private static void consultaEspecifica(File FICHERO) throws IOException {
+	private static long consultaEspecifica(File FICHERO) throws IOException {
 
 		raf = new RandomAccessFile(FICHERO, "r");
 
@@ -128,7 +206,8 @@ public final class Operaciones {
 				while (!encontrado) {
 
 					if (raf.getFilePointer() >= raf.length()) {
-						System.err.println("NO SE HA ENCONTRADO ESE DNI EN EL SISTEMA\n>>>");
+						System.err.println("NO SE HA ENCONTRADO ESE DNI EN EL SISTEMA");
+						System.out.println(">>>");
 						break;
 					}
 
@@ -147,16 +226,18 @@ public final class Operaciones {
 
 					System.out.println(UtilidadesOperaciones.leerAlumno(raf));
 					salir = true;
+					return raf.getFilePointer() - BYTES_REGISTRO;
 
 				} else {
 					salir = true;
 				}
-			}else {
+			} else {
 				System.err.println("!!!INGRESA UN DNI CORRECTO!!!");
 			}
 		}
-		
+
 		raf.close();
+		return PUNTERO_INVALIDO;
 
 	}
 
@@ -171,42 +252,61 @@ public final class Operaciones {
 
 				StringBuilder temp = new StringBuilder();
 
-				temp.append("DNI: ");
 				for (int i = 0; i < BYTES_DNI / BYTES_CHAR; i++) {
 
 					temp.append(dis.readChar());
 
 				}
 
-				if (temp.toString().equals("DNI: 000000000")) {
+				if (temp.toString().equals("000000000")) {
 
 					dis.readNBytes(BYTES_REGISTRO - BYTES_DNI);
 					continue;
 
 				}
 
-				temp.append("\nNOMBRE: ");
+				String dni = new String("DNI: " + temp).trim();
+
+				temp.delete(0, temp.length());
+
 				for (int i = 0; i < BYTES_NOMBRE / BYTES_CHAR; i++) {
 
 					temp.append(dis.readChar());
 
 				}
-				temp.append("\nAPELLIDO: ");
+
+				String nombre = new String("Nombre: " + temp).trim();
+				temp.delete(0, temp.length());
+
 				for (int i = 0; i < BYTES_APELLIDO / BYTES_CHAR; i++) {
 
 					temp.append(dis.readChar());
 
 				}
-				temp.append("\nCICLO: ");
+
+				String apellidos = new String("Apellidos: " + temp).trim();
+				temp.delete(0, temp.length());
+
 				for (int i = 0; i < BYTES_CICLO / BYTES_CHAR; i++) {
 
 					temp.append(dis.readChar());
 
 				}
-				temp.append("\nCURSO: ");
-				temp.append(dis.readInt());
 
+				String ciclo = new String("Ciclo: " + temp).trim();
+				temp.delete(0, temp.length());
+
+				String curso = new String("Curso: " + dis.readInt()).trim();
+
+				temp.append(dni);
 				temp.append("\n");
+				temp.append(nombre);
+				temp.append("\n");
+				temp.append(apellidos);
+				temp.append("\n");
+				temp.append(ciclo);
+				temp.append("\n");
+				temp.append(curso);
 
 				usuarios.append(temp);
 				usuarios.append("\n");
@@ -244,8 +344,14 @@ public final class Operaciones {
 
 			case 1:
 
-				System.out.println("INGRESA EL DNI");
+				System.out.println("---INGRESA EL DNI---\n(3)PARA SALIR");
 				dni = Constantes.sc.nextLine();
+
+				if (dni.equals("3")) {
+					salir = true;
+					break;
+				}
+
 				if (!UtilidadesOperaciones.validarDNI(dni)) {
 					System.err.println("!!!INGRESA UN DNI CORRECTO!!!");
 				} else {
@@ -255,9 +361,15 @@ public final class Operaciones {
 
 			case 2:
 
-				System.out.println("INGRESA EL NOMBRE");
+				System.out.println("---INGRESA EL NOMBRE---\n(3)PARA SALIR");
 				nombre = Constantes.sc.nextLine();
-				if (!nombre.matches("^[^\\d]{1,20}$")) {
+
+				if (nombre.equals("3")) {
+					salir = true;
+					break;
+				}
+
+				if (!UtilidadesOperaciones.validarNOMBRE(nombre)) {
 					System.err.println(
 							"!!!INGRESA UN NOMBRE MENOR A 20 CARACTERES, MAYOR A 5 CARACTERES Y SIN NINGUN NUMERO!!!");
 				} else {
@@ -267,9 +379,15 @@ public final class Operaciones {
 
 			case 3:
 
-				System.out.println("INGRESA EL APELLIDO");
+				System.out.println("---INGRESA EL APELLIDO---\n(3)PARA SALIR");
 				apellido = Constantes.sc.nextLine();
-				if (!apellido.matches("^[^\\d]{1,30}$")) {
+
+				if (apellido.equals("3")) {
+					salir = true;
+					break;
+				}
+
+				if (!UtilidadesOperaciones.validarAPELLIDOS(apellido)) {
 					System.err.println(
 							"!!!INGRESA UN APELLIDO MENOR A 30 CARACTERES, MAYOR A 0 CARACTERES Y SIN NINGUN NUMERO!!!");
 				} else {
@@ -279,9 +397,15 @@ public final class Operaciones {
 
 			case 4:
 
-				System.out.println("INGRESA EL CICLO");
+				System.out.println("---INGRESA EL CICLO---\n(3)PARA SALIR");
 				ciclo = Constantes.sc.nextLine();
-				if (ciclo.length() > 5 || ciclo.isBlank()) {
+
+				if (ciclo.equals("3")) {
+					salir = true;
+					break;
+				}
+
+				if (!UtilidadesOperaciones.validarCICLO(ciclo)) {
 					System.err.println("!!!INGRESA UN CICLO MENOR A 5 CARACTERES, MINIMO UN CARACTER!!!");
 				} else {
 					pasos++;
@@ -289,22 +413,24 @@ public final class Operaciones {
 				break;
 			case 5:
 
-				System.out.println("INGRESA EL CURSO");
-				try {
-					curso = Integer.parseInt(Constantes.sc.nextLine());
-				} catch (NumberFormatException nfe) {
+				System.out.println("---INGRESA EL CURSO---\n(X)PARA SALIR");
+				String temp = Constantes.sc.nextLine();
 
+				if (temp.equals("X") || temp.equals("x")) {
+					salir = true;
+					break;
 				}
 
-				if (curso <= 0 || curso > 10) {
+				if (!UtilidadesOperaciones.validarCURSO(temp)) {
 					System.err.println("!!!INGRESA UN CURSO MENOR A 10 y MAYOR A 0!!!");
 				} else {
+
+					curso = Integer.parseInt(temp);
 					pasos++;
 				}
 				break;
 			case 6:
 
-				System.out.println("CREACION DE ALUMNO CORRECTA");
 				salir = true;
 				creacionCorrecta = true;
 				break;
@@ -321,77 +447,91 @@ public final class Operaciones {
 
 		if (creacionCorrecta) {
 
-			
-			if(UtilidadesOperaciones.confirmacionCreacion()) {
-			
-			raf.seek(raf.length());
+			salir = false;
 
-			StringBuffer sb = new StringBuffer(dni);
-			sb.setLength(BYTES_DNI / BYTES_CHAR);
-			raf.writeChars(sb.toString());
+			while (!salir) {
 
-			sb = new StringBuffer(nombre);
-			sb.setLength(BYTES_NOMBRE / BYTES_CHAR);
-			raf.writeChars(sb.toString());
+				if (UtilidadesOperaciones.confirmacionCreacion()) {
 
-			sb = new StringBuffer(apellido);
-			sb.setLength(BYTES_APELLIDO / BYTES_CHAR);
-			raf.writeChars(sb.toString());
+					raf.seek(raf.length());
 
-			sb = new StringBuffer(ciclo);
-			sb.setLength(BYTES_CICLO / BYTES_CHAR);
-			raf.writeChars(sb.toString());
+					StringBuffer sb = new StringBuffer(dni);
+					sb.setLength(BYTES_DNI / BYTES_CHAR);
+					raf.writeChars(sb.toString());
 
-			raf.writeInt(curso);
+					sb = new StringBuffer(nombre);
+					sb.setLength(BYTES_NOMBRE / BYTES_CHAR);
+					raf.writeChars(sb.toString());
 
-			System.out.println("ALUMNO AÑADIDO CORRECTAMENTE AL FICHERO");
-			}else {
-				
-				if(UtilidadesOperaciones.preguntaModificacion()) {
-					
-					
-					switch(UtilidadesOperaciones.opcionesModificar()) {
-					
-					case DNI:
-						
-						
-						
-						break;
-					
-					
-					
-					
-					
-					
+					sb = new StringBuffer(apellido);
+					sb.setLength(BYTES_APELLIDO / BYTES_CHAR);
+					raf.writeChars(sb.toString());
+
+					sb = new StringBuffer(ciclo);
+					sb.setLength(BYTES_CICLO / BYTES_CHAR);
+					raf.writeChars(sb.toString());
+
+					raf.writeInt(curso);
+
+					System.out.println("ALUMNO AÑADIDO CORRECTAMENTE AL FICHERO");
+					salir = true;
+
+				} else {
+
+					if (UtilidadesOperaciones.preguntaModificacion()) {
+
+						while (!salir) {
+
+							switch (UtilidadesOperaciones.opcionesModificar()) {
+
+							case DNI:
+
+								dni = UtilidadesOperaciones.modificarDNI(dni);
+
+								break;
+							case NOMBRE:
+
+								nombre = UtilidadesOperaciones.modificarNOMBRE(nombre);
+
+								break;
+							case APELLIDOS:
+
+								apellido = UtilidadesOperaciones.modificarAPELLIDOS(apellido);
+
+								break;
+							case CICLO:
+
+								ciclo = UtilidadesOperaciones.modificarCICLO(ciclo);
+
+								break;
+							case CURSO:
+
+								curso = UtilidadesOperaciones.modificarCURSO(curso);
+
+								break;
+							default:
+								System.out.println("MODIFICACION FINALIZADA");
+								salir = true;
+								break;
+							}
+
+						}
+						salir = false;
+
+					} else {
+						System.err.println("<<<SE HA CANCELADO LA CREACION DEL ALUMNO>>>");
+						salir = true;
 					}
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-				}else {
-					System.out.println("SE HA CANCELADO LA CREACION DEL ALUMNO");
+
 				}
-				
-				
+
 			}
 
 		} else {
-			System.err.println("!!!ALUMNO NO SE HA PODIDO AÑADIR CORRECTAMENTE AL FICHERO!!!");
+			System.err.println("<<<SE HA CANCELADO LA CREACION DEL ALUMNO>>>");
 		}
 
 		raf.close();
 	}
+
 }
