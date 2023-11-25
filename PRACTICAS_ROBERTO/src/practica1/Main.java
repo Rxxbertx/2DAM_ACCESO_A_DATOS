@@ -1,15 +1,18 @@
 package practica1;
 
-import static practica1.Constantes.*;
-import static practica1.Operaciones.*;
+import static practica1.Constantes.sc;
+import static practica1.Operaciones.alta;
+import static practica1.Operaciones.baja;
+import static practica1.Operaciones.consultar;
+import static practica1.Operaciones.modificar;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Main {
 
-	static final File FICHERO = new File("Alumnos.dat");
+	static File FICHERO;
+	static final File DIRECTORIO =new File("data");
 	static final int ALTA = 1;
 	static final int BAJA = 2;
 	static final int MODIFICAR = 3;
@@ -17,6 +20,8 @@ public class Main {
 	static final int SALIDA=5;
 
 	public static void main(String[] args) {
+
+		comprobarDirectorio();
 
 		boolean activo = true;
 		int opcion=-1;
@@ -29,7 +34,7 @@ public class Main {
 			try {
 			 opcion = sc.nextInt();
 			}catch(Exception e) {
-				 
+
 			 }
 			sc.nextLine(); // Para eliminar el salto de línea después de la entrada
 
@@ -56,7 +61,7 @@ public class Main {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					System.out.println("FALLO");
+					System.out.println("Error al modificar");
 				} // Llama al método para modificar
 				break;
 			case CONSULTA:
@@ -76,6 +81,18 @@ public class Main {
 				break;
 			}
 		}
+		sc.close();
+	}
+
+	private static void comprobarDirectorio() {
+
+		if(DIRECTORIO.exists()) {
+
+		}else {
+			DIRECTORIO.mkdir();
+		}
+		FICHERO = new File(DIRECTORIO.getName()+"/Alumnos.dat");
+
 	}
 
 	// Método para mostrar el menú
