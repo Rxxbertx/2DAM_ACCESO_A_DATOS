@@ -30,6 +30,12 @@ public class SAX_empleado_xml {
 		xr.parse(new InputSource(new FileInputStream(fichero)));
 		
 		
+		
+		
+		//CREAR UNA LISTA DE PERSOANA Y VOLCARLO EN XML, PARA ELLO NECESTIAMOS LA CLASE PERSONA
+		//UNA NUEVA CLASE LISTA PERSONAS
+		
+		
 
 	}
 
