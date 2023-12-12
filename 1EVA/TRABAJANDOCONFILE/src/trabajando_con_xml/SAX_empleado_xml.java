@@ -19,13 +19,14 @@ public class SAX_empleado_xml {
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, FileNotFoundException, IOException {
 		
+	
 		
 		File fichero = new File("D:\\Empleados.xml");
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 		SAXParser sp = spf.newSAXParser();
 		XMLReader xr = sp.getXMLReader();
 		
-		xr.setContentHandler(new DefaultHandler());
+		xr.setContentHandler(new HandlerSAX());
 	
 		xr.parse(new InputSource(new FileInputStream(fichero)));
 		
