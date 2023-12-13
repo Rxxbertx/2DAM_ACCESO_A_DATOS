@@ -6,7 +6,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="xstream-1.4.20.jar"/>
-	<classpathentry kind="lib" path="kxml2-min-2.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Desktop/jakarta.activation-api-2.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Desktop/jaxb-impl-4.0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Desktop/jakarta.xml.bind-api-4.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Desktop/jaxb-core-4.0.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

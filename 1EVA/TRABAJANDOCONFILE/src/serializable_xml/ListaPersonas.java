@@ -3,6 +3,7 @@ package serializable_xml;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import objetos.Persona;
 
 public class ListaPersonas {

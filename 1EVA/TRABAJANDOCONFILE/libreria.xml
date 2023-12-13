@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<libreria>
+    <ListaLibro>
+        <Libro>
+            <autor>Ken Follett</autor>
+            <nombre>Los pilares de la Tierra</nombre>
+            <editorial>Plaza y Janés</editorial>
+            <isbn>978-84-0149-958-6</isbn>
+        </Libro>
+        <Libro>
+            <autor>Isaac Asimov</autor>
+            <nombre>Yo, robot</nombre>
+            <editorial>Planeta DeAgostini</editorial>
+            <isbn>978-84-6742-694-6</isbn>
+        </Libro>
+    </ListaLibro>
+    <lugar>Burgos, como no</lugar>
+    <nombre>Prueba de libreria JAXB</nombre>
+</libreria>
