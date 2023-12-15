@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <libreria>
-    <ListaLibro>
+    <Libreria>
         <Libro>
             <autor>Ken Follett</autor>
             <nombre>Los pilares de la Tierra</nombre>
@@ -13,7 +13,7 @@
             <editorial>Planeta DeAgostini</editorial>
             <isbn>978-84-6742-694-6</isbn>
         </Libro>
-    </ListaLibro>
+    </Libreria>
     <lugar>Burgos, como no</lugar>
     <nombre>Prueba de libreria JAXB</nombre>
 </libreria>

@@ -8,7 +8,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 // Esto significa que la clases "Libreria.java" es el elemento raiz
 // @XmlRootElement(namespace = "ejemplo.xml")
 // @XmlRootElement(namespace = "")
-@XmlRootElement()
 
 public class Libreria {
 	 
@@ -22,6 +21,8 @@ public class Libreria {
 		this.nombre = nombre;
 		this.lugar = lugar;
 	}
+
+
     public Libreria() {}
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setLugar(String lugar) { this.lugar = lugar; }
