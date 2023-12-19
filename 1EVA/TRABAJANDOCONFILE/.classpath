@@ -6,12 +6,14 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Desktop/jakarta.activation-api-2.1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Desktop/jaxb-impl-4.0.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Desktop/jakarta.xml.bind-api-4.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Desktop/jaxb-core-4.0.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Desktop/xmlpull-1.1.3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Desktop/xpp3_min-1.1.4c.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Desktop/xstream-1.4.20.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/angus-activation.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/jakarta.activation-api.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/jakarta.xml.bind-api.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/jaxb-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/jaxb-impl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/jaxb-jxc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/jaxb-xjc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/kxml2-min-2.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/xstream-1.4.20.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
