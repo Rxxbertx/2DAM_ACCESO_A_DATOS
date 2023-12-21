@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/angus-activation.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/jakarta.activation-api.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/jakarta.xml.bind-api.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/jaxb-core.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/jaxb-impl.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/jaxb-jxc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/jaxb-xjc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/kxml2-min-2.3.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/dam2t06/Documents/CODE/2DAM_ACCESO_A_DATOS/1EVA/TRABAJANDOCONFILE/NUEVODIR/xstream-1.4.20.jar"/>
+	<classpathentry kind="lib" path="NUEVODIR/angus-activation.jar"/>
+	<classpathentry kind="lib" path="NUEVODIR/jakarta.activation-api.jar"/>
+	<classpathentry kind="lib" path="NUEVODIR/jakarta.xml.bind-api.jar"/>
+	<classpathentry kind="lib" path="NUEVODIR/jaxb-core.jar"/>
+	<classpathentry kind="lib" path="NUEVODIR/jaxb-impl.jar"/>
+	<classpathentry kind="lib" path="NUEVODIR/jaxb-jxc.jar"/>
+	<classpathentry kind="lib" path="NUEVODIR/jaxb-xjc.jar"/>
+	<classpathentry kind="lib" path="NUEVODIR/kxml2-min-2.3.0.jar"/>
+	<classpathentry kind="lib" path="NUEVODIR/xstream-1.4.20.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
