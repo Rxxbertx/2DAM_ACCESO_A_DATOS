@@ -29,6 +29,7 @@ public class Ejercicio1 {
 
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/accesodata", "admin", "dam2t");
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,6 +40,7 @@ public class Ejercicio1 {
 		if (connection != null) {
 
 			try (Statement sentence = connection.createStatement();) {
+				
 
 				System.out.println("EJERCICIO 1");
 

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.mysql.cj.jdbc.DatabaseMetaData;
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
 
 public class METADATADB {
 
@@ -33,6 +34,7 @@ public class METADATADB {
 			DatabaseMetaData dmd = null;
 			try {
 				dmd = (DatabaseMetaData) connection.getMetaData();
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -40,7 +42,7 @@ public class METADATADB {
 
 			if (dmd != null) {
 
-				try (ResultSet result = dmd.getColumns(null, null, "DEPARTAMENTOS", null)) {
+				try (ResultSet result = dmd.getColumns(null, null, "EMPLEADOS", null)) {
 
 					int i = 0;
 
@@ -48,6 +50,7 @@ public class METADATADB {
 
 						if (i == 0) {
 							System.out.println(result.getString(3));
+
 							i++;
 						}
 
@@ -89,41 +92,19 @@ public class METADATADB {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+
 				try (ResultSet result = dmd.getImportedKeys(null, null, "empleados")) {
 
 					while (result.next()) {
 
-						System.out.println("IMPORTADA FOREIGN KEY DE " + result.getString(3) + " :::: " + result.getString(8)
-								+ " REFERENCIA A TABLA: " + result.getString(7));
-
+						System.out.println("IMPORTADA FOREIGN KEY DE " + result.getString(3) + " :::: "
+								+ result.getString(8) + " REFERENCIA A TABLA: " + result.getString(7));
 
 					}
 
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 
 			}
 

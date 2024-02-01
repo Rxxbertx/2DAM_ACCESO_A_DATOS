@@ -23,6 +23,8 @@ public class Main {
 			while (resul.next()) {
 				System.out.printf("%d, %s, %s %n", resul.getInt(1), resul.getString(2), resul.getString(3));
 			}
+			
+		
 
 			resul.close(); // Cerrar ResultSet
 			sentencia.close(); // Cerrar Statement
