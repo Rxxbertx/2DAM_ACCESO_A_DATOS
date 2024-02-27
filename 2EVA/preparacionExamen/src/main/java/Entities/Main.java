@@ -155,7 +155,7 @@ public class Main {
         }
         
         
-        entityManager.createQuery("SELECT u FROM User u", User.class).getResultList().forEach(System.out::println);
+        entityManager.createQuery("SELECT u FROM User u WHERE u.name = :name", User.class).setParameter("name",input).getResultList().forEach(System.out::println);
         
         
         entityManagerFactory.close();
